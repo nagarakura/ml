@@ -1,0 +1,41 @@
+data = [115.3, 195.5, 120.5, 110.2, 90.4, 105.6, 110.9, 116.3, 122.3, 125.4]
+
+mean = sum(data) / len(data)
+
+print(mean)
+
+sorted_data = sorted(data)
+n = len(sorted_data)
+if n % 2 == 0:
+    median = (sorted_data[n // 2 - 1] + sorted_data[n // 2]) / 2
+else:
+    median = sorted_data[n // 2]
+
+
+print(median)
+
+from collections import Counter
+counter = Counter(data)
+mode = [k for k, v in counter.items() if v == max(counter.values())]
+
+
+print(mode)
+
+mean_diff_squared = [(x - mean) ** 2 for x in data]
+variance = sum(mean_diff_squared) / len(data)
+std_deviation = variance ** 0.5
+
+print(std_deviation)
+
+print(variance)
+
+min_value = min(data)
+max_value = max(data)
+normalized_data = [(x - min_value) / (max_value - min_value) for x in data]
+print(normalized_data)
+
+mean_normalized = [(x - mean) for x in data]
+std_deviation_normalized = [(x - mean) / std_deviation for x in data]
+
+print(std_deviation_normalized)
+
