@@ -65,3 +65,61 @@ R2=ssr/sst
 R2
 
  
+-------------------------------
+or
+-----------------------------
+
+import pandas as pd
+df=pd.read_csv("/home/ignis/Downloads/Food-Truck(For Linear Regression Program).csv")
+df
+
+import pandas as pd
+column_names = df.columns
+print(column_names)
+
+import matplotlib.pyplot as plt
+import pandas as pd
+df.columns = ['Population', 'Profit']
+X = df['Population']
+y = df['Profit']
+plt.scatter(X, y)
+plt.xlabel('Population (in 10,000s)')
+plt.ylabel('Profit (in $10,000s)')
+plt.title('Food Truck Profit vs. Population')
+plt.grid(True)
+plt.show()
+
+import numpy as np
+S_x = np.std(X)
+S_y = np.std(y)
+
+r = np.corrcoef(X, y)[0, 1]
+m = r * (S_y / S_x)
+print("Slope (m):", m)
+
+c=X.mean() - m * y.mean()
+c
+
+df["y_prediction"]=m * X + c
+df
+
+y_mean=np.mean(df["y_prediction"])
+ym=np.mean(y)
+sse=np.sum((y-df["y_prediction"])**2)
+sse
+
+y_mean=np.mean(df["y_prediction"])
+ym=np.mean(y)
+sse=np.sum((y-df["y_prediction"])**2)
+sse
+
+ssr=np.sum((df["y_prediction"]-y_mean)**2)
+ssr
+
+sst=np.sum((y-ym)**2)
+sst
+
+r_square=ssr/sst
+r_square
+
+ 
