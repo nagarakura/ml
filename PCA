@@ -4,22 +4,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 
-
 df=pd.read_csv('/home/ise/1nt19is174/iris.csv')
 df.head()
 
-
-X=df.drop(['variety'],axis=1)
+X=df.drop(['species'],axis=1)
 x
 
-
-Y=df['variety']
+Y=df['species']
 Y
-
 
 X_scaled = StandardScaler().fit_transform(X)
 X_scaled[:5]
-
 
 features = X_scaled.T
 cov_matrix = np.cov(features)
@@ -44,3 +39,71 @@ res['Y'] = Y
 res.head()
 sns.FacetGrid(res, hue="Y", height=6).map(plt.scatter, 'PC1', 'PC2').add_legend()
 plt.show()
+
+
+---------------------
+or
+---------------------
+
+import pandas as pd
+df = pd.read_csv("iris.csv")
+
+# Prepare X and Y
+X = df.values[:,:-1]
+Y = df.values[:,-1]
+
+df.head()
+
+df
+
+X_standard = X - X.mean()
+X_standard
+
+type(X_standard)
+
+Y_standard = Y
+Y_standard
+
+type(Y_standard)
+
+cov = np.cov(X.T)  
+print("covariance matrix =\n",cov)
+
+from numpy import linalg as LA
+lambdas, vs = LA.eig(cov)
+
+lambdas
+
+vs
+
+lambdas
+
+sorted_index = np.argsort(lambdas)[::-1]
+
+sorted_index
+
+sorted_eigenvalue = lambdas[sorted_index]
+
+sorted_eigenvalue
+
+sorted_eigenvectors = vs[:,sorted_index]
+
+sorted_eigenvectors
+
+n_components = 2 #you can select any number of components.
+eigenvector_subset = sorted_eigenvectors[:,0:n_components]
+
+eigenvector_subset
+
+X_reduced = np.dot(eigenvector_subset.transpose(),X.transpose()).transpose()
+
+print("Information/Variance in PC1",(sorted_eigenvalue[0]/(sorted_eigenvalue[0]+sorted_eigenvalue[1]))*100)
+
+X_reduced
+
+import matplotlib.pyplot as plt
+plt.xlabel('Principal Component - 1',fontsize=20)
+plt.ylabel('Principal Component - 2',fontsize=20)
+plt.scatter(X_reduced[:,0:1],X_reduced[:,-1],c=Y)
+plt.show()
+
