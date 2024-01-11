@@ -1,0 +1,83 @@
+import numpy as np
+import pandas as pd
+from copy import deepcopy
+k=3
+import random as rd
+import matplotlib.pyplot as plt
+
+X = pd.read_csv('kmeans.csv')
+print(X)
+
+X = X[["X1","X2"]]
+#Visualise data points
+plt.scatter(X["X1"],X["X2"],c='red')
+plt.xlabel('AnnualIncome')
+plt.ylabel('Loan Amount (In Thousands)')
+plt.show()
+
+x1 = X['X1'].values
+x2 = X['X2'].values
+
+x1
+x2
+
+X = np.array(list(zip(x1, x2)))
+print(X)
+
+C_x = [6.2, 6.6 ,6.5]
+C_y = [3.2, 3.7, 3.0]
+
+Centroid = np.array(list(zip(C_x, C_y)), dtype=np.float32)
+print("Initial Centroids")
+print(Centroid.shape)
+
+Centroid
+
+type(Centroid)
+
+Centroid_old = np.zeros(Centroid.shape)
+print(Centroid_old)
+
+clusters = np.zeros(len(X))
+print(clusters)
+
+def euclidean(a,b, ax=1):
+    return np.linalg.norm(a-b, axis=ax)
+
+error = euclidean(Centroid, Centroid_old,None)
+print(error)
+
+iterr = 0
+
+while error != 0:
+        # Assigning each value to its closest cluster
+        iterr = iterr + 1
+        for i in range(len(X)):
+            distances = euclidean(X[i], Centroid)
+            cluster = np.argmin(distances)
+            clusters[i] = cluster
+        Centroid_old = deepcopy(Centroid)
+        print("Old Centroid")
+        print(Centroid_old)
+            
+        
+        # Finding the new centroids by taking the Mean
+        for p in range(k):
+            points = [X[j] for j in range(len(X)) if clusters[j] == p]
+            Centroid[p] = np.mean(points, axis=0)
+        print(" New Centroids after ", iterr," Iteration \n", Centroid)
+        error = euclidean(Centroid, Centroid_old, None)
+        print("Error  ... ",error)
+        print("Data points belong to which cluster")
+        print(clusters)
+        print("********************************************************")
+
+
+
+X = pd.read_csv('kmeans.csv')
+X = X[["X1","X2"]]
+#Visualise data points
+plt.scatter(X["X1"],X["X2"],c=clusters)
+plt.xlabel('AnnualIncome')
+plt.ylabel('Loan Amount (In Thousands)')
+plt.show()
