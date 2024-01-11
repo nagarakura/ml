@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-df=pd.read_csv('/home/ise/1nt19is174/Food-Truck.csv')
+df=pd.read_csv('Food-Truck.csv')
 df
 
 x_mean=df['X'].mean()
